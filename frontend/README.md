@@ -28,7 +28,7 @@ What I added
 
 Backend expectations
 
-- Socket server at `http://localhost:3000` accepting socket.io connections.
+- Socket server at `https://chatgpt-clone-ped1.onrender.com` accepting socket.io connections.
 - Socket event `message` used to send/receive messages. Messages should be objects: `{ role: 'user'|'assistant', content: string }`.
 - Optional REST endpoints `/chats` and `/chats/:id/messages` for chat listing and messages.
 

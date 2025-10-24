@@ -103,7 +103,7 @@ export const ShowChat = () => {
 
     useEffect(() => {
         getAllChats();
-        const tempSocket = io("http://localhost:3000", {
+        const tempSocket = io("https://chatgpt-clone-ped1.onrender.com", {
             withCredentials: true,
         });
 
