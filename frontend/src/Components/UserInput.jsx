@@ -23,18 +23,18 @@ export const UserInput = () => {
     }
 
     return (<>
-        <div className="w-full h-[20vh]">
+        <div className="w-full h-[18vh] sm:h-[20vh]">
             <form
                 onSubmit={handleSubmit(inputHandler)}
-                className="w-full h-full flex items-center gap-2 p-2">
+                className="w-full h-full flex flex-col sm:flex-row items-center gap-2 p-2">
                 <textarea
-                    className="w-full px-3 py-2  rounded-xl resize-none border border-zinc-600"
+                    className="w-full px-3 py-2 text-sm sm:text-base rounded-xl resize-none border border-zinc-600"
                     {...register("content")}
                     type="text"
                     placeholder="Ask GPT" />
 
                 <input
-                    className="px-3 py-2 rounded-xl border border-zinc-600"
+                    className="w-full sm:w-auto px-3 py-2 rounded-xl border border-zinc-600 text-sm sm:text-base"
                     type="submit"
                     value="Send" />
             </form>

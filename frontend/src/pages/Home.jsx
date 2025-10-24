@@ -2,13 +2,15 @@ import { Navbar } from "../Components/Navbar"
 
 export const Home = () => {
 
+    
+
     return (<>
 
-        <main className="w-screen h-screen"> 
+        <main className="w-screen min-h-screen flex flex-col bg-zinc-950 text-zinc-100">
            <Navbar/>
-           <div className="w-full h-full flex flex-col items-center justify-center">
-            <h1 className=" text-3xl font-bold text-center">Welcome to ChatGPT Clone</h1>
-            <p className="text-center mt-4 text-lg">Your personal AI assistant powered by Gemini.</p>
+           <div className="flex-1 w-full flex flex-col items-center justify-center px-4 py-6">
+            <h1 className=" text-2xl sm:text-3xl font-bold text-center">Welcome to ChatGPT Clone</h1>
+            <p className="text-center mt-3 sm:mt-4 text-base sm:text-lg text-zinc-300 max-w-xl">Your personal AI assistant powered by Gemini.</p>
            </div>
         </main>
     </>)

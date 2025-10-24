@@ -15,7 +15,7 @@ export const MainRoutes = () =>{
             <Route path="/register" element={<Register/>}/>
             <Route path="/create/chat" element={<CreateChat/>}/>
             <Route path="/api/messages/:chatId" element={<ShowChat/>}/>
-            <Route path="/api/messages/" element={<ShowChat/>}/>
+            <Route path="/api/messages" element={<ShowChat/>}/>
         </Routes>
     </>)
 }

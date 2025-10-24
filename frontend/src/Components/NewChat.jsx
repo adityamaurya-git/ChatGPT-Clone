@@ -19,10 +19,10 @@ export const NewChat = ({isOpen , onClose , onSubmit}) => {
         >
             {/* Modal Content: use stopPropagation to prevent clicks inside from closing it */}
             <div
-                className="bg-[#1D1D1D] border border-zinc-700 rounded-lg p-6 w-full max-w-md"
+                className="bg-[#1D1D1D] border border-zinc-700 rounded-lg p-4 sm:p-6 w-full max-w-md"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h2 className="text-xl font-semibold mb-4">Create New Chat</h2>
+                <h2 className="text-lg sm:text-xl font-semibold mb-4">Create New Chat</h2>
 
                 <form onSubmit={handleSubmit(newChatHandler)}>
                     <div className="mb-4">
@@ -39,17 +39,17 @@ export const NewChat = ({isOpen , onClose , onSubmit}) => {
                         {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
                     </div>
 
-                    <div className="flex justify-end gap-3 mt-6">
+                    <div className="flex justify-end gap-3 mt-4">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 rounded-lg cursor-pointer bg-zinc-700 hover:bg-zinc-600"
+                            className="px-3 py-2 rounded-lg cursor-pointer bg-zinc-700 hover:bg-zinc-600 text-sm"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 rounded-lg cursor-pointer bg-blue-600 hover:bg-blue-500"
+                            className="px-3 py-2 rounded-lg cursor-pointer bg-blue-600 hover:bg-blue-500 text-sm"
                         >
                             Create Chat
                         </button>
