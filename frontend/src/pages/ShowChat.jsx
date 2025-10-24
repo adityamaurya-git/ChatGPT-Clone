@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { instance } from "../api/axios.config"
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { io } from "socket.io-client";
 
@@ -9,6 +9,7 @@ import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
 import { TypingIndicator } from "../Components/TypingIndicator";
+import { NewChat } from "../Components/NewChat";
 
 
 export const ShowChat = () => {
@@ -22,7 +23,9 @@ export const ShowChat = () => {
     const [isTyping, setIsTyping] = useState(false);
 
 
-    // console.log("Messages:", message);
+    const [isNewChatOpen, setIsNewChatOpen] = useState(false);
+    const navigate = useNavigate();
+
 
     const inputHandler = async (data) => {
 
@@ -92,16 +95,30 @@ export const ShowChat = () => {
         fetchMessages()
     }, [params])
 
+    const handleNewChatSubmit = async (data) => {
+        const response = await instance.post('/api/chat/',data);
+
+        setIsNewChatOpen(false);
+        getAllChats();
+        if(response.data.chat?._id){
+            navigate(`/api/messages/${response.data.chat._id}`);
+        }
+    }
 
     return (<>
-        <div className="w-full h-full flex">
+            <NewChat
+            isOpen={isNewChatOpen}
+            onClose={() => setIsNewChatOpen(false)}
+            onSubmit={handleNewChatSubmit}/>
+
+            <div className="w-full h-full flex">
 
             {/* Chat messages will go here */}
             <aside className="w-1/4 h-full rounded-r-xl border border-zinc-700 bg-[#1D1D1D]">
                 <div className="w-full flex justify-between items-center px-4 py-3 border-b border-zinc-800">
                     <h1>Add Chat</h1>
                     <button
-                        // onClick={newChatHandler}
+                        onClick={() => setIsNewChatOpen(true)}
                         className="w-7 h-7 rounded-full cursor-pointer bg-zinc-700">+</button>
                 </div>
                 <div className="w-full ">
@@ -160,6 +177,7 @@ export const ShowChat = () => {
                             value="Send" />
                     </form>
                 </div>
+
             </div>
 
         </div>
