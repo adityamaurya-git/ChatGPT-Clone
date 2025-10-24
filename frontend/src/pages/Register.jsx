@@ -1,12 +1,14 @@
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom";
 import { instance } from "../api/axios.config";
-
+import { registerUserAction } from "../store/actions/userAction";
+import { useDispatch } from "react-redux";
 
 export const Register = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const { register, reset, handleSubmit } = useForm();
+    const { register, reset, handleSubmit , formState:{errors} } = useForm();
 
     const registerHandler = async (formData) => {
         const {email ,firstName , lastName , password} = formData;
@@ -20,9 +22,12 @@ export const Register = () => {
             password
         }
 
-        await instance.post('/api/auth/register' ,data);
-        reset();
-        navigate('/')
+        // await instance.post('/api/auth/register' ,data);
+        const response = await dispatch(registerUserAction(data));
+        if(response){
+            reset();
+            navigate('/')
+        }
     }
 
     return (
@@ -45,29 +50,32 @@ export const Register = () => {
                         <input
                             className="px-3 py-2 rounded-lg border border-zinc-700 bg-transparent"
                             type="email"
-                            {...register("email")}
-                        />
+                            {...register("email" , {required:"Email is required"})}/>
+                            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
                     </label>
 
                     <label className="flex flex-col gap-1 font-semibold text-sm"> Firstname
                         <input
                             className="px-3 py-2 rounded-lg border border-zinc-700 bg-transparent"
                             type="text"
-                            {...register("firstName")} />
+                            {...register("firstName",{required:"Firstname is required"})} />
+                            {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>}
                     </label>
 
                     <label className="flex flex-col gap-1 font-semibold text-sm"> Lastname
                         <input
                             className="px-3 py-2 rounded-lg border border-zinc-700 bg-transparent"
                             type="text"
-                            {...register("lastName")} />
+                            {...register("lastName" , {required:"Lastname is required"})} />
+                            {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>}
                     </label>
 
                     <label className="flex flex-col gap-1 font-semibold text-sm"> Password
                         <input
                             className="px-3 py-2 rounded-lg border border-zinc-700 bg-transparent"
                             type="password"
-                            {...register("password")} />
+                            {...register("password" ,{required:"Password is required"})} />
+                            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
                     </label>
 
                     <input

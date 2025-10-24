@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom"
 import { useState } from 'react'
 import { instance } from "../api/axios.config"
+import { useSelector } from "react-redux"
 
 export const Navbar = () =>{
     const [open, setOpen] = useState(false)
@@ -9,6 +10,10 @@ export const Navbar = () =>{
         await instance.get('/api/auth/logout');
         window.location.reload();
     }
+
+    const {isAuthenticated} = useSelector((state) =>{
+        return state.user;
+    })
 
     return(<>
     <nav className="w-full h-auto sm:h-20 p-2 flex justify-center items-center relative">
@@ -19,9 +24,19 @@ export const Navbar = () =>{
                 <div className="flex-1 h-full flex items-center justify-between">
                     <div className="hidden sm:flex w-full h-full flex-wrap justify-center items-center gap-2 px-2 font-mono text-sm sm:text-base">
                         <NavLink className={(e) => ` px-2 py-1 rounded-4xl font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/">Home</NavLink>
-                        <NavLink className={(e) => ` px-2 py-1 rounded-4xl font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/api/messages">Chats</NavLink>
-                        <NavLink className={(e) => ` px-2 py-1 rounded-4xl font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/login">Login</NavLink>
-                        <NavLink className={(e) => ` px-2 py-1 rounded-4xl font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/register">Register</NavLink>
+                        {isAuthenticated ? (
+                            <>
+                                <NavLink className={(e) => ` px-2 py-1 rounded-4xl font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/api/messages">Chats</NavLink>
+                            </>
+                        ) : (
+                            <>
+                                <NavLink className={(e) => ` px-2 py-1 rounded-4xl font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/login">Login</NavLink>
+
+                                <NavLink className={(e) => ` px-2 py-1 rounded-4xl font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/register">Register</NavLink>
+                            </>
+                        )}
+
+                        
                     </div>
 
                     <div className="hidden sm:flex items-center pr-3">

@@ -1,18 +1,29 @@
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from "react-router-dom";
 import { instance } from "../api/axios.config";
-
+import { useDispatch, useSelector } from "react-redux";
+import { loginUserAction } from "../store/actions/userAction";
 
 export const Login = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { register, reset, handleSubmit , formState:{errors} } = useForm();
+    const {isLoading , error} = useSelector((state) =>{
+        return state.user;
+    })
 
-    const { register, reset, handleSubmit } = useForm();
 
     const loginHandler = async (formData) => {
-        await instance.post('/api/auth/login' , formData);
-        reset();
-        navigate('/');
-
+        try{
+            const response = await dispatch(loginUserAction(formData));
+            if(response){
+                reset();
+                navigate('/');
+            }
+        }catch(err){
+            console.log("Login Error" , err);
+            return;
+        }
     }
 
     return (<>
@@ -37,20 +48,23 @@ export const Login = () => {
                         <input
                             className="px-3 py-2 rounded-lg border border-zinc-700 bg-transparent"
                             type="email"
-                            {...register("email")} />
+                            {...register("email" , {required:"Email is required"})} />
+                            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
                     </label>
 
                     <label className="flex flex-col gap-1 font-semibold text-sm"> Password
                         <input
                             className="px-3 py-2 rounded-lg border border-zinc-700 bg-transparent"
                             type="password"
-                            {...register("password")} />
+                            {...register("password" , {required:"password is required"})} />
+                            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
                     </label>
 
                     <input
                         className="w-full sm:w-auto px-3 py-2 rounded-lg bg-zinc-100 font-mono text-black"
                         type="submit"
-                        value="Login" />
+                        value={isLoading ? "Logging In..." : "Login"}
+                        disabled={isLoading} />
                 </div>
             </form>
         </div>
