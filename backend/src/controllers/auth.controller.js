@@ -30,10 +30,11 @@ const registerUser = async (req , res) =>{
     },process.env.JWT_SECRET_KEY)
 
     res.cookie("token" , token,{
-        httpOnly:true,
-        secure:process.env.NODE_ENV === 'production',
+       httpOnly:true,
+        secure:true,
         sameSite:'strict',
-        maxAge:  24 * 60 * 60 * 1000 // 1 days
+        path:'/',
+        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),  // 1 days
     });
 
     res.status(201).json({
@@ -74,7 +75,8 @@ const loginUser = async (req , res) =>{
     res.cookie("token" , token,{
         httpOnly:true,
         secure:true,
-        sameSite:'none',
+        sameSite:'srict',
+        path:'/',
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000),  // 1 days
     });
 

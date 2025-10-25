@@ -43,7 +43,8 @@ export const ShowChat = () => {
         }
 
         setMessage((prevMessage) => [...prevMessage, userMessage]);
-
+        // indicate AI is typing after user sends a message
+        setIsTyping(true);
         if (socket) {
             socket.emit("ai-message", {
                 chat: params.chatId,
@@ -108,18 +109,17 @@ export const ShowChat = () => {
         });
 
         tempSocket.on("ai-response", (response) => {
-            // console.log("Connected to socket server with ID:", response);
-            setIsTyping(true);
+            // Received AI response: append message and stop typing indicator
             setMessage((prevMessage) => [...prevMessage, {
                 _id: Date.now() * Math.random(),
                 chat: response.chat,
                 content: response.content,
                 role: "model"
             }]);
+            setIsTyping(false);
         })
 
-        setIsTyping(false);
-        setSocket(tempSocket);
+    setSocket(tempSocket);
     }, [])
 
     useEffect(() => {
@@ -162,17 +162,18 @@ export const ShowChat = () => {
                 style={isDragging ? { transform: `translateX(${dragOffset}px)` } : undefined}
                 className={`${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed z-30 top-0 left-0 h-full w-72 md:static md:translate-x-0 md:w-1/4 transform transition-transform duration-300 ease-out bg-[#1D1D1D] border border-zinc-700 rounded-r-xl` }
             >
-                <div className="w-full flex justify-between items-center px-4 py-3 border-b border-zinc-800">
-                    <div className="flex items-center gap-2">
+                <div className="w-full flex flex-col items-start gap-2 p-2 border-b border-zinc-800">
                         <button className="md:hidden px-2 py-1 rounded-md bg-zinc-700" onClick={()=>setIsSidebarOpen(false)} aria-label="Close chat list">
                             {/* X icon */}
                             <svg className="w-5 h-5 text-zinc-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
-                        <h1 className="text-sm font-semibold">Add Chat</h1>
+                    <div className="w-full h-full flex justify-between items-center gap-2 py-2">
+                        <h1 className="text-md font-semibold">Add Chat</h1>
+                        <button
+                            onClick={() => setIsNewChatOpen(true)}
+                            className="w-9 h-9 text-2xl rounded-full cursor-pointer bg-zinc-700">+
+                        </button>
                     </div>
-                    <button
-                        onClick={() => setIsNewChatOpen(true)}
-                        className="w-7 h-7 rounded-full cursor-pointer bg-zinc-700">+</button>
                 </div>
                 <div className="w-full ">
                     {/* List of chats will go here */}
@@ -180,11 +181,12 @@ export const ShowChat = () => {
                     <div className="w-full flex flex-col gap-2 p-2">
                         {/* Individual chat item */}
                         {chats.length > 0 ? chats.map((chat) => {
-                            return <NavLink key={chat._id} to={`/api/messages/${chat._id}`} className="p-2 font-semibold rounded-3xl hover:bg-zinc-800">{chat.title}</NavLink>
+                            return <NavLink onClick={() => setIsSidebarOpen(false)} key={chat._id} to={`/api/messages/${chat._id}`} className="p-2 font-semibold rounded-3xl hover:bg-zinc-800">{chat.title}</NavLink>
                         }) : "No chats found"}
                     </div>
                 </div>
             </aside>
+
             <div className="w-full md:w-3/4 h-screen md:h-full flex flex-col">
 
                 {/* mobile header with menu toggle */}
@@ -217,11 +219,12 @@ export const ShowChat = () => {
                                     </div>
                                 )}
                             </div>
-                        }) : "No messages found"
+                        }) : "Open a chat to start messaging"
                     }
                     {isTyping && <TypingIndicator />}
                     <div ref={messagesEndRef} />
                 </div>
+
                 <div className="w-full flex-none p-2 sm:p-3">
                     <form
                         onSubmit={handleSubmit(inputHandler)}

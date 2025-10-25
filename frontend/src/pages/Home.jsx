@@ -1,18 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Navbar } from "../Components/Navbar"
-import { useEffect } from "react";
-import { currentUserAction } from "../store/actions/userAction";
+
 
 export const Home = () => {
-    const dispatch = useDispatch();
 
     const { user } = useSelector((state) => {
         return state.user
     });
 
-    useEffect(() => {
-        dispatch(currentUserAction());
-    }, []);
+    
 
     // console.log(user?.fullName.firstName);
     return (<>

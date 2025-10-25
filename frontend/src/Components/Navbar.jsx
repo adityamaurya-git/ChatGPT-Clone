@@ -5,15 +5,16 @@ import { useSelector } from "react-redux"
 
 export const Navbar = () =>{
     const [open, setOpen] = useState(false)
+    
+    const {isAuthenticated} = useSelector((state) =>{
+        return state.user;
+    })
 
     const handleClick = async () =>{
         await instance.get('/api/auth/logout');
         window.location.reload();
     }
 
-    const {isAuthenticated} = useSelector((state) =>{
-        return state.user;
-    })
 
     return(<>
     <nav className="w-full h-auto sm:h-20 p-2 flex justify-center items-center relative">
@@ -21,7 +22,7 @@ export const Navbar = () =>{
                 <div className="w-auto sm:w-1/5 h-full flex items-center px-3 sm:px-0">
                     <h1 className="text-white font-bold text-lg sm:text-2xl px-2 py-2 font-mono">ChatGPT</h1>
                 </div>
-                <div className="flex-1 h-full flex items-center justify-between">
+                <div className="flex-1 h-full flex items-center justify-between ">
                     <div className="hidden sm:flex w-full h-full flex-wrap justify-center items-center gap-2 px-2 font-mono text-sm sm:text-base">
                         <NavLink className={(e) => ` px-2 py-1 rounded-4xl font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/">Home</NavLink>
                         {isAuthenticated ? (
@@ -39,11 +40,13 @@ export const Navbar = () =>{
                         
                     </div>
 
-                    <div className="hidden sm:flex items-center pr-3">
+                    <div className=" hidden sm:flex items-center pr-3">
                         {/* Profile Section */}
-                        <div onClick={handleClick} className="w-10 h-10 flex justify-center items-center bg-red-400 rounded-full cursor-pointer">
-                            Out
-                        </div>
+                        {isAuthenticated && (
+                            <div onClick={handleClick} className="w-20 h-9 flex justify-center items-center bg-red-400 rounded-xl cursor-pointer">
+                                Logout
+                            </div>
+                        )}
                     </div>
 
                     {/* Mobile menu button - rightmost */}
@@ -63,10 +66,24 @@ export const Navbar = () =>{
             {/* Mobile dropdown menu (placed below navbar) */}
             <div className={`sm:hidden absolute left-[2%] top-full w-[96vw] p-3 rounded-xl transition-all duration-200 bg-[#1D1D1D] ${open ? 'max-h-72 opacity-100 visible' : 'max-h-0 opacity-0 invisible overflow-hidden'}`}>
                 <div className="flex flex-col gap-2">
+
                     <NavLink onClick={()=>setOpen(false)} className={(e) => ` px-3 py-2 rounded-lg font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/">Home</NavLink>
-                    <NavLink onClick={()=>setOpen(false)} className={(e) => ` px-3 py-2 rounded-lg font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/api/messages">Chats</NavLink>
-                    <NavLink onClick={()=>setOpen(false)} className={(e) => ` px-3 py-2 rounded-lg font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/login">Login</NavLink>
-                    <NavLink onClick={()=>setOpen(false)} className={(e) => ` px-3 py-2 rounded-lg font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/register">Register</NavLink>
+                    {isAuthenticated ?(<>
+                        <NavLink onClick={()=>setOpen(false)} className={(e) => ` px-3 py-2 rounded-lg font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/api/messages">Chats</NavLink>
+                    </>):(<>
+                        <NavLink onClick={()=>setOpen(false)} className={(e) => ` px-3 py-2 rounded-lg font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/login">Login</NavLink>
+                        <NavLink onClick={()=>setOpen(false)} className={(e) => ` px-3 py-2 rounded-lg font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/register">Register</NavLink>  
+                    </>)}
+
+                    <div className="sm:flex items-center pr-3">
+                        {/* Profile Section */}
+                        {isAuthenticated && (
+                            <div onClick={handleClick} className="w-20 h-9 flex justify-center items-center bg-red-400 rounded-xl cursor-pointer">
+                                Logout
+                            </div>
+                        )}
+                    </div>
+
                 </div>
             </div>
         </nav>
