@@ -224,8 +224,9 @@ export const ShowChat = () => {
                     {isTyping && <TypingIndicator />}
                     <div ref={messagesEndRef} />
                 </div>
-
-                <div className="w-full flex-none p-2 sm:p-3">
+                
+                {params.chatId &&(
+                    <div className="w-full flex-none p-2 sm:p-3">
                     <form
                         onSubmit={handleSubmit(inputHandler)}
                         className="w-full h-full flex flex-col sm:flex-row items-center gap-2 p-2">
@@ -240,7 +241,8 @@ export const ShowChat = () => {
                             type="submit"
                             value="Send" />
                     </form>
-                </div>
+                    </div>
+                )}
 
             </div>
 
