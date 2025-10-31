@@ -19,7 +19,7 @@ export const Navbar = () =>{
     return(<>
     <nav className="w-full h-auto sm:h-20 p-2 flex justify-center items-center relative">
             <div className="w-full sm:w-3/4 h-full flex items-center justify-between overflow-hidden rounded-2xl sm:rounded-4xl bg-[#1D1D1D] px-2">
-                <div className="w-auto sm:w-1/5 h-full flex items-center px-3 sm:px-0">
+                <div className="w-auto sm:w-1/5 h-full flex items-center px-3 sm:px-0 md:hidden">
                     <h1 className="text-white font-bold text-lg sm:text-2xl px-2 py-2 font-mono">ChatGPT</h1>
                 </div>
                 <div className="flex-1 h-full flex items-center justify-between ">
