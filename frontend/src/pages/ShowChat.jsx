@@ -181,7 +181,7 @@ export const ShowChat = () => {
                     <div className="w-full flex flex-col gap-2 p-2">
                         {/* Individual chat item */}
                         {chats.length > 0 ? chats.map((chat) => {
-                            return <NavLink onClick={() => setIsSidebarOpen(false)} key={chat._id} to={`/api/messages/${chat._id}`} className="p-2 font-semibold rounded-3xl hover:bg-zinc-800">{chat.title}</NavLink>
+                            return <NavLink onClick={() => setIsSidebarOpen(false)} key={chat._id} to={`/messages/${chat._id}`} className="p-2 font-semibold rounded-3xl hover:bg-zinc-800">{chat.title}</NavLink>
                         }) : "No chats found"}
                     </div>
                 </div>

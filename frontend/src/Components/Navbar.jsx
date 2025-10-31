@@ -27,7 +27,7 @@ export const Navbar = () =>{
                         <NavLink className={(e) => ` px-2 py-1 rounded-4xl font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/">Home</NavLink>
                         {isAuthenticated ? (
                             <>
-                                <NavLink className={(e) => ` px-2 py-1 rounded-4xl font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/api/messages">Chats</NavLink>
+                                <NavLink className={(e) => ` px-2 py-1 rounded-4xl font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/messages">Chats</NavLink>
                             </>
                         ) : (
                             <>
@@ -69,7 +69,7 @@ export const Navbar = () =>{
 
                     <NavLink onClick={()=>setOpen(false)} className={(e) => ` px-3 py-2 rounded-lg font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/">Home</NavLink>
                     {isAuthenticated ?(<>
-                        <NavLink onClick={()=>setOpen(false)} className={(e) => ` px-3 py-2 rounded-lg font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/api/messages">Chats</NavLink>
+                        <NavLink onClick={()=>setOpen(false)} className={(e) => ` px-3 py-2 rounded-lg font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/messages">Chats</NavLink>
                     </>):(<>
                         <NavLink onClick={()=>setOpen(false)} className={(e) => ` px-3 py-2 rounded-lg font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/login">Login</NavLink>
                         <NavLink onClick={()=>setOpen(false)} className={(e) => ` px-3 py-2 rounded-lg font-semibold ${ e.isActive ? "bg-zinc-100 text-black" : "bg-none"}`} to="/register">Register</NavLink>  

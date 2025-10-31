@@ -27,8 +27,8 @@ export const MainRoutes = () =>{
             <Route path="/" element={<Home/>}/>
             {isAuthenticated ? (<>
                 <Route path="/create/chat" element={<CreateChat/>}/>
-                <Route path="/api/messages/:chatId" element={<ShowChat/>}/>
-                <Route path="/api/messages" element={<ShowChat/>}/>
+                <Route path="/messages/:chatId" element={<ShowChat/>}/>
+                <Route path="/messages" element={<ShowChat/>}/>
             </>) : (<>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>
