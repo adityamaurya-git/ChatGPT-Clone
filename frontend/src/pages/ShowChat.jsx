@@ -135,7 +135,7 @@ export const ShowChat = () => {
         setIsNewChatOpen(false);
         getAllChats();
         if(response.data.chat?._id){
-            navigate(`/api/messages/${response.data.chat._id}`);
+            navigate(`/messages/${response.data.chat._id}`);
         }
     }
 
